@@ -1,25 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 struct ListItem
 {
     int data;
     struct ListItem* next;
 };
 
-int main() {
-    struct ListItem head_item;
-
-    struct ListItem* prev_item = &head_item;
-    for (int i = 0; i < 9; i++) {
-        struct ListItem* next_item = malloc(sizeof(struct ListItem));
-        prev_item->next = next_item;
-        prev_item->data = i;
-        prev_item = prev_item->next;
+void append_new_item(struct ListItem* head_item, int data) {
+    if (head_item == 0) {
+        head_item = malloc(sizeof(struct ListItem));
+        head_item->next = 0;
+        head_item->data = data;
+        return;
     }
-    prev_item->data = 9;
 
-    struct ListItem* current_item = &head_item;
+    struct ListItem* current_item = head_item;
+    while (current_item->next != 0) {
+        current_item = current_item->next;
+    }
+    current_item->next = malloc(sizeof(struct ListItem));
+    current_item->next->data = data;  
+}
+
+int main() {
+    setbuf(stdout, NULL);
+
+    struct ListItem* head_item = 0;
+    head_item->next = 0;
+    head_item->data = 0;
+
+    for (int i = 0; i < 10; i++) {
+        append_new_item(head_item, i);
+    }
+
+    
+    struct ListItem* current_item = head_item;
     while (current_item != 0) {
         int num = current_item->data;
         printf("%d\n", num);
