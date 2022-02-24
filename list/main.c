@@ -1,46 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-
-struct ListItem
-{
-    int data;
-    struct ListItem* next;
-};
-
-void append_new_item(struct ListItem* head_item, int data) {
-    if (head_item == 0) {
-        head_item = malloc(sizeof(struct ListItem));
-        head_item->next = 0;
-        head_item->data = data;
-        return;
-    }
-
-    struct ListItem* current_item = head_item;
-    while (current_item->next != 0) {
-        current_item = current_item->next;
-    }
-    current_item->next = malloc(sizeof(struct ListItem));
-    current_item->next->data = data;  
-}
+#include "list.h"
 
 int main() {
     setbuf(stdout, NULL);
 
     struct ListItem* head_item = 0;
-    head_item->next = 0;
-    head_item->data = 0;
 
     for (int i = 0; i < 10; i++) {
-        append_new_item(head_item, i);
+        append_new_item(&head_item, i);
     }
 
+
+    print_list(head_item);
+
+    print_separator();
     
-    struct ListItem* current_item = head_item;
-    while (current_item != 0) {
-        int num = current_item->data;
-        printf("%d\n", num);
-        current_item = current_item->next;
-    }
+    int count = get_length(head_item);
+    printf("Count of elements in ListItem: %d\n", count);  // Вывод кол-ва элементов в списке
+
+    print_separator();
+    
+    printf("Specify the index of an element to get its value:\n");
+    int customer_index;
+    scanf("%d", &customer_index);
+    int data_by_index = get_item_data(head_item, customer_index);
+    printf("%d\n", data_by_index);
+
+    printf("\n");
+
     return 0;
 }
