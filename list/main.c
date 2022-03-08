@@ -47,5 +47,10 @@ int main() {
         print_list(head_item);
     }
 
+    printf("FILTERED LIST: ");
+
+    struct ListItem* filtered_list = list_filter(head_item, is_even);
+    print_list(filtered_list);
+
     return 0;
 }

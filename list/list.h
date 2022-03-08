@@ -15,3 +15,8 @@ void print_list(struct ListItem* head_item);
 int is_index_in_range(struct ListItem* head_item, int index, int* error);
 void insert_item(struct ListItem** head_item, int index, int data, int* error);
 void remove_element(struct ListItem** head_item, int index, int* error);
+struct ListItem* list_filter(
+    struct ListItem* head_item,
+    int (*callback) (struct ListItem*)
+    );
+int is_even(struct ListItem* element);

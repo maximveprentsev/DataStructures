@@ -111,3 +111,43 @@ void remove_element(struct ListItem** head_item, int index, int* error) {
     }
     current_item->next = current_item->next->next;
 }
+
+struct ListItem* list_filter(
+    struct ListItem* head_item,
+    int (*callback) (struct ListItem*)
+    ) {
+    struct ListItem* current_item = head_item;
+    while (current_item != 0) {
+        if ((*callback)(current_item)) {
+            break;
+        }
+        current_item = current_item->next;
+    }
+
+    if (current_item == 0) {
+        return 0;
+    }
+
+    struct ListItem* new_head_item = current_item;
+    current_item = new_head_item->next;
+    struct ListItem* prev_item = new_head_item;
+    while (current_item->next != 0) {
+        if ((*callback)(current_item)) {
+            prev_item->next = current_item;
+            prev_item = prev_item->next;
+        }
+        current_item = current_item->next;
+    }
+    if ((*callback)(current_item)) {
+        prev_item->next = current_item;
+    }
+    else {
+        prev_item->next = 0;
+    }
+
+    return new_head_item;
+}
+
+int is_even(struct ListItem* element) {
+    return element->data % 2 == 0;
+}
